@@ -339,7 +339,6 @@ class Function(ufl.Coefficient):
             V.element.dtype, np.dtype(dtype).type(0).real.dtype
         ), "Incompatible FunctionSpace dtype and requested dtype."
 
-
         # Create cpp Function
         def functiontype(dtype):
             if np.issubdtype(dtype, np.float32):
