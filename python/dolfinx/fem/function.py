@@ -482,7 +482,17 @@ class Function(ufl.Coefficient):
 
     @property
     def vector(self):
-        return self.x().vector
+        """PETSc vector holding the degrees-of-freedom.
+
+        Upon first call, this function creates a PETSc ``Vec`` object
+        that wraps the degree-of-freedom data. The ``Vec`` object is
+        cached and the cached ``Vec`` is returned upon subsequent calls.
+
+        Note:
+            Prefer :func`x` where possible.
+
+        """
+        return self.x.vector
 
     @property
     def dtype(self) -> np.dtype:
