@@ -339,9 +339,6 @@ class Function(ufl.Coefficient):
             V.element.dtype, np.dtype(dtype).type(0).real.dtype
         ), "Incompatible FunctionSpace dtype and requested dtype."
 
-        # PETSc Vec wrapper around the C++ function data (constructed
-        # when first requested)
-        self._petsc_x = None
 
         # Create cpp Function
         def functiontype(dtype):
@@ -372,10 +369,6 @@ class Function(ufl.Coefficient):
 
         # Store DOLFINx FunctionSpace object
         self._V = V
-
-    def __del__(self):
-        if self._petsc_x is not None:
-            self._petsc_x.destroy()
 
     @property
     def function_space(self) -> FunctionSpace:
@@ -489,21 +482,7 @@ class Function(ufl.Coefficient):
 
     @property
     def vector(self):
-        """PETSc vector holding the degrees-of-freedom.
-
-        Upon first call, this function creates a PETSc ``Vec`` object
-        that wraps the degree-of-freedom data. The ``Vec`` object is
-        cached and the cached ``Vec`` is returned upon subsequent calls.
-
-        Note:
-            Prefer :func`x` where possible.
-
-        """
-        if self._petsc_x is None:
-            from dolfinx.la import create_petsc_vector_wrap
-
-            self._petsc_x = create_petsc_vector_wrap(self.x)
-        return self._petsc_x
+        return self.x().vector
 
     @property
     def dtype(self) -> np.dtype:
