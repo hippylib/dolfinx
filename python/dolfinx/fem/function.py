@@ -370,7 +370,7 @@ class Function(ufl.Coefficient):
         self._V = V
 
         # Store casting to la.Vector
-        self._x = la.Vector(self._cpp_object.x) 
+        self._x = la.Vector(self._cpp_object.x)
 
     @property
     def function_space(self) -> FunctionSpace:
