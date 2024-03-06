@@ -259,9 +259,7 @@ class Vector:
         cached and the cached ``Vec`` is returned upon subsequent calls.
         """
         if self._petsc_x is None:
-            from dolfinx.la import create_petsc_vector_wrap
-
-            self._petsc_x = create_petsc_vector_wrap(self.x)
+            self._petsc_x = create_petsc_vector_wrap(self)
         return self._petsc_x
 
     def scatter_forward(self) -> None:
