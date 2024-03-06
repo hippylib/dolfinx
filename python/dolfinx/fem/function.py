@@ -370,6 +370,9 @@ class Function(ufl.Coefficient):
         # Store DOLFINx FunctionSpace object
         self._V = V
 
+        # Store casting to la.Vector
+        self._x = la.Vector(self._cpp_object.x) 
+
     @property
     def function_space(self) -> FunctionSpace:
         """The FunctionSpace that the Function is defined on"""
@@ -478,7 +481,7 @@ class Function(ufl.Coefficient):
     @property
     def x(self) -> la.Vector:
         """Vector holding the degrees-of-freedom."""
-        return la.Vector(self._cpp_object.x)  # type: ignore
+        return self._x  # type: ignore
 
     @property
     def vector(self):
